@@ -2,25 +2,21 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-use App\Models\Races;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Model;
 
-class Cat extends Authenticatable
+class Cat extends Model
 {
-    use HasFactory, Notifiable;
+    use HasFactory;
 
-    /**
-     * The primary key associated with the table.
-     * @var string
-     */
-    protected $primaryKey = 'id_cat';
-
-    public function race()
-    {
-        return $this->belongsTo(Races::class, 'id_race'); // Replace 'id_race' with the actual foreign key column name
-    }
-
+    protected $fillable = [
+        'breed',
+        'age',
+        'gender',
+        'issues_with_kids',
+        'issues_with_other_cats',
+        'issues_with_dogs',
+        'no_issues',
+        'image',
+    ];
 }
