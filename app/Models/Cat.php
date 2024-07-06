@@ -9,11 +9,6 @@ class Cat extends Model
 {
     use HasFactory;
 
-    /**
-     * @var string|null
-     */
-    public ?string $image = null;
-
     protected $fillable = [
         'breed',
         'name',

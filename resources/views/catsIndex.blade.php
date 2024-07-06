@@ -16,8 +16,8 @@
                                 <a href="{{ route('cats.information', ['id' => $cat->id]) }}">
                                     {{ $cat->name }}
                                 </a>
-                                @if ($cat->image && file_exists(storage_path('app/public/image/' . $cat->image)))
-                                    <img src="{{ asset('storage/image/' . $cat->image) }}" alt="{{ $cat->breed }}" style="width:100px;">
+                                @if (!empty($cat->image))
+                                    <img src="{{ asset('storage/'.$cat->image) }}" alt="{{ $cat->name }}" style="width:150px;">
                                 @else
                                     <p>Image non trouvée</p>
                                 @endif

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 use App\Models\Cat;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Sleep;
 use Illuminate\View\View;
 
 class CatController extends Controller
@@ -44,12 +46,18 @@ class CatController extends Controller
             $cat->no_issues = false;
         }
 
+        $file = $request->file('image');
+
         // Initialize image with a default value
-        $cat->image = $request->image ? $request->file('image')->store('image', 'public') : '';
+        if ($file != null) {
+            $cat->image = $file->storeAs('image', $file->getClientOriginalName(), 'public');
+        } else {
+            $cat->image = '';
+        }
 
         $cat->save();
 
-        return redirect()->route('cats.create')->with('success', 'Chat ajouté avec succès !');
+        return redirect()->route('cats.create')->with('success', 'Chat ajouté avec succès ! \n' . $cat->image . " yo " . $request->file('image'));
     }
 
     /**

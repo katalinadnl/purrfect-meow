@@ -37,7 +37,12 @@
                                     <br><br>
                                 @endif
                             @endif
-                            <b>Son portrait:</b> {{ $cat->image }}
+                            <b>Son portrait:</b>
+                            @if (!empty($cat->image))
+                                <img src="{{ asset('storage/'.$cat->image) }}" alt="{{ $cat->name }}" style="width:150px;">
+                            @else
+                                <p>Image non trouvée</p>
+                            @endif
                             <br>
                         </li>
                     </ul>

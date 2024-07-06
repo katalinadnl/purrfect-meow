@@ -53,4 +53,4 @@ USER www
 # Expose port 9000 and start php server
 EXPOSE 9000
 
-CMD ["php-fpm"]
+CMD ["/bin/bash", "-c", "php-fpm; php artisan storage:link;"]
