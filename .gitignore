@@ -19,3 +19,9 @@ yarn-error.log
 /.vscode
 
 storage-db/
+
+.DS_Store
+resources/.DS_Store
+resources/views/.DS_Store
+resources/views/profile/.DS_Store
+
