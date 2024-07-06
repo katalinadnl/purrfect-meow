@@ -2,16 +2,18 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cat;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class CatController extends Controller
 {
     /**
      * Show the form for creating a new cat.
      *
-     * @return \Illuminate\View\View
+     * @return View
      */
-    public function create()
+    public function create(): View
     {
         return view('createCats');
     }
@@ -19,13 +21,14 @@ class CatController extends Controller
     /**
      * Store a newly created cat in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @param Request $request
+     * @return RedirectResponse
      */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         $request->validate([
             'breed' => 'required|string|max:255',
+            'name' => 'required|string|max:255',
             'age' => 'required|integer|min:0|max:255',
             'gender' => 'required|in:male,female',
             'issues_with_kids' => 'boolean',
@@ -37,23 +40,38 @@ class CatController extends Controller
 
         $cat = new Cat($request->all());
 
-        if ($request->hasFile('image')) {
-            $cat->image = $request->file('image')->store('image', 'public');
+        if (!$request->has('no_issues')) {
+            $cat->no_issues = false;
         }
+
+        // Initialize image with a default value
+        $cat->image = $request->image ? $request->file('image')->store('image', 'public') : '';
 
         $cat->save();
 
-        return redirect()->route('cats.create')->with('success', 'Cat added successfully');
+        return redirect()->route('cats.create')->with('success', 'Chat ajouté avec succès !');
     }
 
     /**
      * Display a listing of the cats.
      *
-     * @return \Illuminate\View\View
+     * @return View
      */
-    public function index()
+    public function index(): View
     {
-        $cats = Cat::all();
-        return view('catsIndex', compact('cats'));
+        $cats = Cat::paginate(3);
+        return view('catsIndex', ['cats' => $cats]);
+    }
+    /**
+     * Display the specified cat.
+     *
+     * @param  int  $id
+     * @return View
+     */
+    public function information(int $id): View
+    {
+        $cat = Cat::findOrFail($id);
+        return view('informationCat', compact('cat'));
     }
 }
+

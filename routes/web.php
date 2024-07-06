@@ -22,6 +22,7 @@ Route::middleware('auth')->group(function () {
 Route::get('/cats/create', [CatController::class, 'create'])->name('cats.create');
 Route::post('/cats', [CatController::class, 'store'])->name('cats.store');
 Route::get('/cats', [CatController::class, 'index'])->name('cats.index');
+Route::get('/cats/{id}', [CatController::class, 'information'])->name('cats.information');
 
 
 require __DIR__.'/auth.php';
