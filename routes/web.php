@@ -3,6 +3,8 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CatController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Admin\UserController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -18,9 +20,16 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/admin/create-cat', [AdminController::class, 'createCat'])->name('cats.create');
+    Route::post('/admin/create-cat', [AdminController::class, 'storeCat'])->name('cats.store');
+});
 
-Route::get('/cats/create', [CatController::class, 'create'])->name('cats.create');
-Route::post('/cats', [CatController::class, 'store'])->name('cats.store');
+Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
+    Route::get('/users', [UserController::class, 'index'])->name('admin.users.index');
+    Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('admin.users.edit');
+    Route::patch('/users/{user}', [UserController::class, 'update'])->name('admin.users.update');
+});
 Route::get('/cats', [CatController::class, 'index'])->name('cats.index');
 Route::get('/cats/{id}', [CatController::class, 'information'])->name('cats.information');
 
