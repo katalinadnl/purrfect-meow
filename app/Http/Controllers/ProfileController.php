@@ -26,10 +26,16 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        $request->user()->fill($request->validated());
+        $user = $request->user();
+        $user->fill($request->validated());
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
+        // Check if the email has been changed
+        if ($user->isDirty('email')) {
+            $user->email_verified_at = null;
+        }
+
+        if ($user->role === 1) { //if the user is an admin
+            $user->role = $request->input('role'); //update the role
         }
 
         $request->user()->save();

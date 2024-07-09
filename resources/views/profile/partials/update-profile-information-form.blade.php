@@ -47,6 +47,14 @@
             @endif
         </div>
 
+        @if (auth()->user()->role === 1)
+            <div>
+                <x-input-label for="role" :value="__('Role')" />
+                <x-text-input id="role" name="role" type="text" class="mt-1 block w-full" :value="old('role', $user->role)" required autofocus autocomplete="role" />
+                <x-input-error class="mt-2" :messages="$errors->get('role')" />
+            </div>
+        @endif
+
         <div class="flex items-center gap-4">
             <x-primary-button>{{ __('Save') }}</x-primary-button>
 
