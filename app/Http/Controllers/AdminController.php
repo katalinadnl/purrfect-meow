@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Cat;
+use App\Models\CatIssue;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
@@ -27,6 +28,7 @@ class AdminController extends Controller
      */
     public function storeCat(Request $request): RedirectResponse
     {
+        //validation des données
         $request->validate([
             'breed' => 'required|string|max:255',
             'name' => 'required|string|max:255',
@@ -39,15 +41,16 @@ class AdminController extends Controller
             'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
-        $cat = new Cat($request->all());
+        // Création d'un nouveau chat
+        $cat = new Cat();
+        $cat->breed = $request->input('breed');
+        $cat->name = $request->input('name');
+        $cat->age = $request->input('age');
+        $cat->gender = $request->input('gender');
 
-        if (!$request->has('no_issues')) {
-            $cat->no_issues = false;
-        }
-
+        // Vérifie si une image a été téléchargé
         $file = $request->file('image');
 
-        // Initialize image with a default value
         if ($file != null) {
             $cat->image = $file->storeAs('image', $file->getClientOriginalName(), 'public');
         } else {
@@ -56,7 +59,16 @@ class AdminController extends Controller
 
         $cat->save();
 
-        return redirect()->route('cats.create')->with('success', 'Chat ajouté avec succès ! \n' . $cat->image . " yo " . $request->file('image'));
-    }
+        // Création d'un nouvel objet CatIssue
+        $catIssue = new CatIssue();
+        $catIssue->cat_id = $cat->id;
+        $catIssue->issues_with_kids = $request->input('issues_with_kids', false);
+        $catIssue->issues_with_other_cats = $request->input('issues_with_other_cats', false);
+        $catIssue->issues_with_dogs = $request->input('issues_with_dogs', false);
+        $catIssue->no_issues = $request->input('no_issues', false);
+        $catIssue->save();
 
+        // Redirige l'utilisateur vers la page de création de chat avec un message de succès
+        return redirect()->route('cats.create')->with('success', 'Chat ajouté avec succès !');
+    }
 }
