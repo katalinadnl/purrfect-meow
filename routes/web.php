@@ -29,7 +29,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('admin.users.destroy');
 });
 
-Route::get('/cats', [CatController::class, 'index'])->name('cats.index');
+Route::get('/dashboard', [CatController::class, 'index'])->name('dashboard');
 Route::get('/cats/{id}', [CatController::class, 'information'])->name('cats.information');
 
 

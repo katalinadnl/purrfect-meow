@@ -33,7 +33,7 @@ class CatController extends Controller
         $cats = $catsQuery->paginate($catsPerPage);
 
         //retourne la vue catsIndex avec les chats
-        return view('catsIndex', ['cats' => $cats]);
+        return view('dashboard', ['cats' => $cats]);
     }
 
     /**

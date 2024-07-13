@@ -25,9 +25,6 @@
                         </x-nav-link>
                     @endif
 
-                    <x-nav-link :href="route('cats.index')" :active="request()->routeIs('cats')">
-                        {{ __('See all cats') }}
-                    </x-nav-link>
                 </div>
             </div>
 
