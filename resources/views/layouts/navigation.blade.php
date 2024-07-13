@@ -15,6 +15,19 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+
+                    @if(Auth::user()->isAdmin())
+                        <x-nav-link :href="route('cats.create')" :active="request()->routeIs('admin/create-cat')">
+                            {{ __('Add a cat') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('admin.users.index')" :active="request()->routeIs('users')">
+                            {{ __('Users') }}
+                        </x-nav-link>
+                    @endif
+
+                    <x-nav-link :href="route('cats.index')" :active="request()->routeIs('cats')">
+                        {{ __('See all cats') }}
+                    </x-nav-link>
                 </div>
             </div>
 

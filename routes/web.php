@@ -23,13 +23,11 @@ Route::middleware('auth')->group(function () {
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/create-cat', [AdminController::class, 'createCat'])->name('cats.create');
     Route::post('/admin/create-cat', [AdminController::class, 'storeCat'])->name('cats.store');
-});
-
-Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
     Route::get('/users', [UserController::class, 'index'])->name('admin.users.index');
     Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('admin.users.edit');
-    Route::patch('/users/{user}', [UserController::class, 'update'])->name('admin.users.update');
+    Route::put('/users/{user}', [UserController::class, 'update'])->name('admin.users.update');
 });
+
 Route::get('/cats', [CatController::class, 'index'])->name('cats.index');
 Route::get('/cats/{id}', [CatController::class, 'information'])->name('cats.information');
 
