@@ -40,4 +40,14 @@ class UserController extends Controller
 
         return redirect()->route('admin.users.index')->with('status', 'User updated successfully');
     }
+
+    /**
+     * Remove the specified user from storage.
+     */
+
+    public function destroy(User $user)
+    {
+        $user->delete();
+        return redirect()->route('admin.users.index')->with('status', 'User deleted successfully');
+    }
 }

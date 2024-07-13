@@ -30,7 +30,12 @@
                         <td class="py-2 px-4 border-b">{{ $user->email }}</td>
                         <td class="py-2 px-4 border-b">{{ $user->role == 1 ? 'Admin' : 'Client' }}</td>
                         <td class="py-2 px-4 border-b">
-                            <a href="{{ route('admin.users.edit', ['user' => $user->id]) }}" class="bg-blue-500 text-white px-4 py-2 rounded">Edit</a>
+                            <a href="{{ route('admin.users.edit', ['user' => $user->id]) }}" class="bg-blue-500 text-black px-4 py-2 rounded">Edit</a>
+                            <form action="{{ route('admin.users.destroy', ['user' => $user->id]) }}" method="POST" class="inline">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="bg-red-500 text-black px-4 py-2 rounded ml-2" onclick="return confirm('Are you sure you want to delete this user?')">Delete</button>
+                            </form>
                         </td>
                     </tr>
                 @endforeach
