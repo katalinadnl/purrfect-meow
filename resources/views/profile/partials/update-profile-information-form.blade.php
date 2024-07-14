@@ -57,32 +57,32 @@
 
         @if (auth()->user()->role === 0)
             <div>
-                <x-input-label for="profile_requests" :value="__('Sélecteur de match')" />
+                <x-input-label for="preferences" :value="__('Sélecteur de match')" />
                 <div class="mt-1">
-                    <label for="cats" class="inline-flex items-center">
-                        <input id="cats" name="profile_requests[]" type="checkbox" class="form-checkbox" value="cats" {{ in_array('cats', old('profile_requests', $user->profile_requests ?? [])) ? 'checked' : '' }}>
+                    <label for="has_cats" class="inline-flex items-center">
+                        <input id="has_cats" name="has_cats" type="checkbox" class="form-checkbox" value="1" {{ old('has_cats', $user->has_cats) ? 'checked' : '' }}>
                         <span class="ml-2 text-white">{{ __('J\'ai un ou plusieurs chats') }}</span>
                     </label>
                 </div>
                 <div class="mt-1">
-                    <label for="dogs" class="inline-flex items-center">
-                        <input id="dogs" name="profile_requests[]" type="checkbox" class="form-checkbox" value="dogs" {{ in_array('dogs', old('profile_requests', $user->profile_requests ?? [])) ? 'checked' : '' }}>
+                    <label for="has_dogs" class="inline-flex items-center">
+                        <input id="has_dogs" name="has_dogs" type="checkbox" class="form-checkbox" value="1" {{ old('has_dogs', $user->has_dogs) ? 'checked' : '' }}>
                         <span class="ml-2 text-white">{{ __('J\'ai un ou plusieurs chiens') }}</span>
                     </label>
                 </div>
                 <div class="mt-1">
-                    <label for="children" class="inline-flex items-center">
-                        <input id="children" name="profile_requests[]" type="checkbox" class="form-checkbox" value="children" {{ in_array('children', old('profile_requests', $user->profile_requests ?? [])) ? 'checked' : '' }}>
+                    <label for="has_kids" class="inline-flex items-center">
+                        <input id="has_kids" name="has_kids" type="checkbox" class="form-checkbox" value="1" {{ old('has_kids', $user->has_kids) ? 'checked' : '' }}>
                         <span class="ml-2 text-white">{{ __('J\'ai un ou plusieurs enfants') }}</span>
                     </label>
                 </div>
                 <div class="mt-1">
-                    <label for="none" class="inline-flex items-center">
-                        <input id="none" name="profile_requests[]" type="checkbox" class="form-checkbox" value="none" {{ in_array('none', old('profile_requests', $user->profile_requests ?? [])) ? 'checked' : '' }}>
+                    <label for="no_issues" class="inline-flex items-center">
+                        <input id="no_issues" name="no_issues" type="checkbox" class="form-checkbox" value="1" {{ old('no_issues', $user->no_issues) ? 'checked' : '' }}>
                         <span class="ml-2 text-white">{{ __('Je vis sans perturbateurs') }}</span>
                     </label>
                 </div>
-                <x-input-error class="mt-2" :messages="$errors->get('profile_requests')" />
+                <x-input-error class="mt-2" :messages="$errors->get('preferences')" />
             </div>
         @endif
 
@@ -114,54 +114,39 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        const checkboxes = document.querySelectorAll('input[name="profile_requests[]"]');
-        const noneCheckbox = document.getElementById('none');
+        const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        const noneCheckbox = document.getElementById('no_issues');
 
-        checkboxes.forEach(checkbox => {
-            checkbox.addEventListener('change', function() {
-                if (this !== noneCheckbox) {
-                    if (this.checked) {
-                        noneCheckbox.disabled = true;
-                        noneCheckbox.parentNode.classList.add('disabled');
-                    } else {
-                        let anyChecked = false;
-                        checkboxes.forEach(cb => {
-                            if (cb !== noneCheckbox && cb.checked) {
-                                anyChecked = true;
-                            }
-                        });
-                        noneCheckbox.disabled = anyChecked;
-                        noneCheckbox.parentNode.classList.toggle('disabled', anyChecked);
-                    }
-                } else {
-                    if (this.checked) {
-                        checkboxes.forEach(cb => {
-                            if (cb !== noneCheckbox) {
-                                cb.disabled = true;
-                                cb.parentNode.classList.add('disabled');
-                            }
-                        });
-                    } else {
-                        checkboxes.forEach(cb => {
-                            cb.disabled = false;
-                            cb.parentNode.classList.remove('disabled');
-                        });
-                    }
+        function updateCheckboxState() {
+            let anyChecked = false;
+            checkboxes.forEach(checkbox => {
+                if (checkbox !== noneCheckbox && checkbox.checked) {
+                    anyChecked = true;
                 }
             });
 
-            // Initial check on page load
-            if (checkbox.checked && checkbox !== noneCheckbox) {
-                noneCheckbox.disabled = true;
-                noneCheckbox.parentNode.classList.add('disabled');
-            } else if (noneCheckbox.checked) {
-                checkboxes.forEach(cb => {
-                    if (cb !== noneCheckbox) {
-                        cb.disabled = true;
-                        cb.parentNode.classList.add('disabled');
+            if (noneCheckbox.checked) {
+                checkboxes.forEach(checkbox => {
+                    if (checkbox !== noneCheckbox) {
+                        checkbox.disabled = true;
+                        checkbox.parentNode.classList.add('disabled');
                     }
                 });
+            } else if (anyChecked) {
+                noneCheckbox.disabled = true;
+                noneCheckbox.parentNode.classList.add('disabled');
+            } else {
+                checkboxes.forEach(checkbox => {
+                    checkbox.disabled = false;
+                    checkbox.parentNode.classList.remove('disabled');
+                });
             }
+        }
+
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', updateCheckboxState);
         });
+
+        updateCheckboxState();
     });
 </script>
