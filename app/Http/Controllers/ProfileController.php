@@ -16,6 +16,7 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): View
     {
+        // Retourne la vue profile.edit avec l'utilisateur connecté
         return view('profile.edit', [
             'user' => $request->user(),
         ]);
@@ -26,19 +27,26 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
+        // Récupère l'utilisateur connecté
         $user = $request->user();
         $user->fill($request->validated());
 
-        // Check if the email has been changed
+        // Regarde si l'email a été modifié
         if ($user->isDirty('email')) {
             $user->email_verified_at = null;
         }
 
-        if ($user->role === 1) { //if the user is an admin
-            $user->role = $request->input('role'); //update the role
+        if ($user->role === 1) { // Si l'user est un admin
+            $user->role = $request->input('role'); // update le role
         }
 
-        $request->user()->save();
+        // Met à jour les informations de l'utilisateur si il a des animaux de compagnie ou enfants ou rien
+        $user->has_cats = $request->has('has_cats');
+        $user->has_dogs = $request->has('has_dogs');
+        $user->has_kids = $request->has('has_kids');
+        $user->no_issues = $request->has('no_issues');
+
+        $user->save();
 
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
@@ -48,6 +56,7 @@ class ProfileController extends Controller
      */
     public function destroy(Request $request): RedirectResponse
     {
+        // Valide la requête
         $request->validateWithBag('userDeletion', [
             'password' => ['required', 'current_password'],
         ]);
