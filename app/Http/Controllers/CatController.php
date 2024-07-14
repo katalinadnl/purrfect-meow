@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Cat;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
+use Illuminate\Http\RedirectResponse;
 
 class CatController extends Controller
 {
@@ -48,5 +49,27 @@ class CatController extends Controller
         $cat = Cat::with('issues')->findOrFail($id);
         //retourne la vue informationCat avec le chat en particulier
         return view('informationCat', compact('cat'));
+    }
+
+    /**
+     * Remove the specified cat from storage.
+     *
+     * @param  int  $id
+     * @return RedirectResponse
+     */
+    public function destroy(int $id): RedirectResponse
+    {
+        // Check if the user is an admin with role 1
+        $user = Auth::user();
+        if ($user->role !== 1) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        // Find the cat and delete it
+        $cat = Cat::findOrFail($id);
+        $cat->delete();
+
+        // Redirect back to the dashboard with a success message
+        return redirect()->route('dashboard')->with('status', 'Cat deleted successfully!');
     }
 }

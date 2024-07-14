@@ -16,8 +16,8 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::prefix('contact')->name('contact.')->group(function () { 
-    Route::get('/', [ContactController::class, 'contact'])->name('contact'); 
+Route::prefix('contact')->name('contact.')->group(function () {
+    Route::get('/', [ContactController::class, 'contact'])->name('contact');
     Route::post('/', [ContactController::class, 'store'])->name('store');
 });
 
@@ -31,6 +31,7 @@ Route::middleware('auth')->group(function () {
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/create-cat', [AdminController::class, 'createCat'])->name('cats.create');
     Route::post('/admin/create-cat', [AdminController::class, 'storeCat'])->name('cats.store');
+    Route::delete('/cats/{id}', [CatController::class, 'destroy'])->name('cats.destroy');
     Route::get('/users', [UserController::class, 'index'])->name('admin.users.index');
     Route::get('/users/{user}/edit', [UserController::class, 'edit'])->name('admin.users.edit');
     Route::put('/users/{user}', [UserController::class, 'update'])->name('admin.users.update');
