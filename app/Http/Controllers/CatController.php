@@ -1,16 +1,13 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Models\Cat;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Sleep;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
 class CatController extends Controller
 {
-
     /**
      * Display a listing of the cats.
      *
@@ -18,9 +15,27 @@ class CatController extends Controller
      */
     public function index(): View
     {
-        $cats = Cat::paginate(3);
-        return view('catsIndex', ['cats' => $cats]);
+        //récupère l'utilisateur connecté
+        $user = Auth::user();
+        $catsPerPage = 3;
+
+        //si l'utilisateur est un client
+        if ($user->role === 0) {
+            //appelle la méthode compatibleWithUser du modèle Cat
+            $catsQuery = Cat::with('issues')->compatibleWithUser($user);
+        } else if ($user->role === 1) {
+            // Charge tous les chats avec leurs issues
+            $catsQuery = Cat::with('issues');
+        } else {
+            $catsQuery = Cat::query();
+        }
+
+        $cats = $catsQuery->paginate($catsPerPage);
+
+        //retourne la vue catsIndex avec les chats
+        return view('dashboard', ['cats' => $cats]);
     }
+
     /**
      * Display the specified cat.
      *
@@ -29,8 +44,9 @@ class CatController extends Controller
      */
     public function information(int $id): View
     {
-        $cat = Cat::findOrFail($id);
+        //récupère le chat correspondant à l'id
+        $cat = Cat::with('issues')->findOrFail($id);
+        //retourne la vue informationCat avec le chat en particulier
         return view('informationCat', compact('cat'));
     }
 }
-

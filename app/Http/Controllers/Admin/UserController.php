@@ -14,7 +14,7 @@ class UserController extends Controller
     public function index()
     {
         $users = User::all();
-        return view('admin.users.index', compact('users'));
+        return view('admin/users/index', compact('users'));
     }
 
     /**
@@ -22,7 +22,7 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        return view('admin.users.edit', compact('user'));
+        return view('admin./users/edit', compact('user'));
     }
 
     /**
@@ -39,5 +39,15 @@ class UserController extends Controller
         $user->update($request->all());
 
         return redirect()->route('admin.users.index')->with('status', 'User updated successfully');
+    }
+
+    /**
+     * Remove the specified user from storage.
+     */
+
+    public function destroy(User $user)
+    {
+        $user->delete();
+        return redirect()->route('admin.users.index')->with('status', 'User deleted successfully');
     }
 }

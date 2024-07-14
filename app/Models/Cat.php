@@ -14,10 +14,23 @@ class Cat extends Model
         'name',
         'age',
         'gender',
-        'issues_with_kids',
-        'issues_with_other_cats',
-        'issues_with_dogs',
-        'no_issues',
         'image',
     ];
+
+    //relation avec la table CatIssue
+    public function issues()
+    {
+        return $this->hasOne(CatIssue::class);
+    }
+
+    //scope pour récupérer les chats compatibles avec l'utilisateur
+    public function scopeCompatibleWithUser($query, User $user)
+    {
+        return $query->whereHas('issues', function ($query) use ($user) {
+            $query
+                ->when($user->has_kids, fn($query) => $query->where('issues_with_kids', 0))
+                ->when($user->has_cats, fn($query) => $query->where('issues_with_other_cats', 0))
+                ->when($user->has_dogs, fn($query) => $query->where('issues_with_dogs', 0));
+        });
+    }
 }

@@ -20,21 +20,23 @@
                             <br><br>
                             <b>Monsieur ou Madame:</b> {{ $cat->gender }}
                             <br><br>
-                            @if((bool)$cat->no_issues)
-                                <b>Ami avec le monde</b>
-                                <br><br>
-                            @else
-                                @if($cat->issues_with_kids)
-                                    <b>N'est pas amis avec les enfants</b>
+                            @if($cat->issues)
+                                @if($cat->issues->no_issues)
+                                    <b>Ami avec le monde</b>
                                     <br><br>
-                                @endif
-                                @if($cat->issues_with_other_cats)
-                                    <b>N'est pas ami avec ses congénères</b>
-                                    <br><br>
-                                @endif
-                                @if($cat->issues_with_dogs)
-                                    <b>N'est pas ami avec Pluto</b>
-                                    <br><br>
+                                @else
+                                    @if($cat->issues->issues_with_kids)
+                                        <b>N'est pas ami avec les enfants</b>
+                                        <br><br>
+                                    @endif
+                                    @if($cat->issues->issues_with_other_cats)
+                                        <b>N'est pas ami avec ses congénères</b>
+                                        <br><br>
+                                    @endif
+                                    @if($cat->issues->issues_with_dogs)
+                                        <b>N'est pas ami avec les chiens</b>
+                                        <br><br>
+                                    @endif
                                 @endif
                             @endif
                             <b>Son portrait:</b>
