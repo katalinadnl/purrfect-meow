@@ -1,15 +1,14 @@
 <x-app-layout>
     <x-slot name="header">
-        <title class="text-gray-900 dark:text-gray-100">Tous les chats</title>
-        <h1 class="text-gray-900 dark:text-gray-100">Tous les chats</h1>
-        <a href="{{ route('cats.create') }}" class="text-gray-900 dark:text-gray-100">Ajouter un nouveau chat</a>
+        <title class="text-black dark:text-black">Ajouter un chat</title>
+        <h1 class="text-black dark:text-black">Ajouter un chat</h1>
     </x-slot>
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900 dark:text-gray-100">
-                    <h1 class="text-center">Ajouter un nouveau chat</h1>
+            <div class="bg-blue-200 dark:blue-200 overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 text-black dark:text-black">
+                    <h1 class="text-center">Information du nouveau chat</h1>
 
                     @if (session('success'))
                         <div class="alert alert-success">
@@ -21,19 +20,19 @@
                         @csrf
                         <div class="form-group">
                             <label for="breed">Race</label>
-                            <input type="text" id="breed" name="breed" required class="form-control">
+                            <input type="text" id="breed" name="breed" required class="form-control rounded-lg">
                         </div>
                         <div class="form-group">
                             <label for="name">Prénom</label>
-                            <input type="text" id="name" name="name" required class="form-control">
+                            <input type="text" id="name" name="name" required class="form-control rounded-lg">
                         </div>
                         <div class="form-group">
                             <label for="age">Age</label>
-                            <input type="number" id="age" name="age" required class="form-control">
+                            <input type="number" id="age" name="age" required class="form-control rounded-lg">
                         </div>
                         <div class="form-group">
                             <label for="gender">Sexe</label>
-                            <select id="gender" name="gender" required class="form-control">
+                            <select id="gender" name="gender" required class="form-control rounded-lg">
                                 <option value="male">Male</option>
                                 <option value="female">Female</option>
                             </select>
@@ -59,7 +58,7 @@
                             <input type="file" id="image" name="image" class="form-control-file">
                         </div>
                         <div class="form-group">
-                            <button type="submit" class="btn btn-primary">Ajouter le chat</button>
+                            <button type="submit" class="btn btn-primary inline-flex items-center px-4 py-2 bg-gray-800 dark:bg-gray-200 border border-transparent rounded-md font-semibold text-xs text-white dark:text-gray-800 uppercase tracking-widest hover:bg-gray-700 dark:hover:bg-white focus:bg-gray-700 dark:focus:bg-white active:bg-gray-900 dark:active:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition ease-in-out duration-150">Ajouter le chat</button>
                         </div>
                     </form>
                     <br>

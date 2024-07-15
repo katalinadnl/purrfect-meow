@@ -1,18 +1,18 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Edit User') }}
+        <h2 class="font-semibold text-xl text-black leading-tight">
+            {{ __("Modifier l'utilisateur") }}
         </h2>
     </x-slot>
 
     <div class="container mx-auto p-4 bg-white shadow rounded">
-        <h1 class="text-2xl font-bold mb-4">Edit User</h1>
+        <h1 class="text-2xl font-bold mb-4">Modifier l'utilisateur</h1>
         <form method="POST" action="{{ route('admin.users.update', ['user' => $user->id]) }}">
             @csrf
             @method('PUT')
 
             <div>
-                <x-input-label for="name" :value="__('Name')" />
+                <x-input-label for="name" :value="__('Nom')" />
                 <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" :value="old('name', $user->name)" required autofocus autocomplete="name" />
                 <x-input-error class="mt-2" :messages="$errors->get('name')" />
             </div>
@@ -24,7 +24,7 @@
             </div>
 
             <div class="mt-4">
-                <x-input-label for="role" :value="__('Role')" />
+                <x-input-label for="role" :value="__('Rôle')" />
                 <select id="role" name="role" class="mt-1 block w-full" required>
                     <option value="1" {{ old('role', $user->role) == 1 ? 'selected' : '' }}>Admin</option>
                     <option value="0" {{ old('role', $user->role) == 0 ? 'selected' : '' }}>Client</option>
@@ -34,7 +34,7 @@
 
             <div class="flex items-center justify-end mt-4">
                 <x-primary-button class="ml-4">
-                    {{ __('Save') }}
+                    {{ __('Sauvegarder') }}
                 </x-primary-button>
             </div>
         </form>
