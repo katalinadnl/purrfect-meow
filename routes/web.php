@@ -19,6 +19,8 @@ Route::get('/dashboard', function () {
 Route::prefix('contact')->name('contact.')->group(function () {
     Route::get('/', [ContactController::class, 'contact'])->name('contact');
     Route::post('/', [ContactController::class, 'store'])->name('store');
+    Route::get('/submitted', [ContactController::class, 'submitted'])->name('submitted');
+
 });
 
 

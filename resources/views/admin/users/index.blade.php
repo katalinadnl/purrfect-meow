@@ -16,11 +16,11 @@
             <table class="min-w-full bg-white rounded-lg">
                 <thead>
                 <tr>
-                    <th class="py-2 px-4 border-b">ID</th>
-                    <th class="py-2 px-4 border-b">Name</th>
-                    <th class="py-2 px-4 border-b">Email</th>
-                    <th class="py-2 px-4 border-b">Role</th>
-                    <th class="py-2 px-4 border-b">Actions</th>
+                    <th class="py-2 px-4 border-b text-left">ID</th>
+                    <th class="py-2 px-4 border-b text-left">Nom</th>
+                    <th class="py-2 px-4 border-b text-left">E-mail</th>
+                    <th class="py-2 px-4 border-b text-left">Rôle</th>
+                    <th class="py-2 px-4 border-b text-left">Actions</th>
                 </tr>
                 </thead>
                 <tbody>

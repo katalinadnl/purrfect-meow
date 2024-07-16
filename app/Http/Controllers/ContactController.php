@@ -24,7 +24,7 @@ class ContactController extends Controller
     {
         // Je récupère les données de mon formulaire avec la request : 
             $data = $request->validate([
-                 'name' => 'required', 
+                 'name' => 'required|max:255', 
                  'email' => 'required|email', 
                  'message' => 'required', 
             ]);
@@ -34,6 +34,12 @@ class ContactController extends Controller
             Mail::to('lemerre.alice@gmail.com')->send(new ContactForm($data['name'], $data['email'], $data['message']));
 
          // je redirige l'utilisateur vers la page contact : 
-            return redirect()->route('contact.contact');
+            
+            return redirect()->route('contact.submitted');
     }
+
+            public function submitted()
+        {
+            return view('contact-submitted');
+        }
 }
