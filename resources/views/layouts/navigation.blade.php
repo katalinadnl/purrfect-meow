@@ -12,7 +12,7 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" class="hover:text-black">
                         {{ __('Tous les chats') }}
                     </x-nav-link>
 
@@ -24,6 +24,10 @@
                             {{ __('Utilisateurs') }}
                         </x-nav-link>
                     @endif
+
+                    <x-nav-link :href="route('contact.contact')" :active="request()->routeIs('contact.contact')">
+                        {{ __('Contact') }}
+                    </x-nav-link>
 
                 </div>
             </div>

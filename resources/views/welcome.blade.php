@@ -156,7 +156,7 @@ m-7618 -2080 c128 -22 260 -69 398 -142 439 -231 634 -454 690 -793 32 -188
                                     href="{{ route('register') }}"
                                     class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-black dark:hover:text-black dark:focus-visible:ring-white"
                                 >
-                                    S'enrergistrer
+                                    S'enregistrer
                                 </a>
                             @endif
                         @endauth
