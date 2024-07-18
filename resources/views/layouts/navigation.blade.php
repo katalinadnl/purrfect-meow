@@ -17,10 +17,10 @@
                     </x-nav-link>
 
                     @if(Auth::user()->isAdmin())
-                        <x-nav-link :href="route('cats.create')" :active="request()->routeIs('admin/create-cat')">
+                        <x-nav-link :href="route('cats.create')" :active="request()->routeIs('cats.create')">
                             {{ __('Ajouter un chat') }}
                         </x-nav-link>
-                        <x-nav-link :href="route('admin.users.index')" :active="request()->routeIs('users')">
+                        <x-nav-link :href="route('admin.users.index')" :active="request()->routeIs('admin.users.index')">
                             {{ __('Utilisateurs') }}
                         </x-nav-link>
                     @endif
